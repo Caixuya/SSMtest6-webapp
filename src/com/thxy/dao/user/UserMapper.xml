@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace：命名空间，用于隔离sql -->
+<!-- 使用接口时，这里写的是接口的位置：com.thxy.dao.user.UserMapper -->
+<mapper namespace="com.thxy.dao.user.UserMapper">
+<!-- 当数据库中的字段信息与对象的属性不一致时需要通过resultMap来映射,如果通过resultMap映射了，以下的select语句就应该改成resultMap="userList"，对应result的id值 -->
+<!-- 	<resultMap type="User" id="userList">
+		<result property="userRoleName" column="roleName" />
+	</resultMap> -->
+	
+	<select id="getUserList" resultType="com.thxy.pojo.User" parameterType="User">
+	select * from  test6
+	</select>
+	
+</mapper>

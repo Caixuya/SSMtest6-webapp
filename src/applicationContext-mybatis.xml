@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans 
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop-3.2.xsd">
+
+	<!-- 配置数据源 -->
+	<bean id="dataSource"
+		class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+
+		<property name="driverClassName"
+			value="com.mysql.jdbc.Driver" />
+		<property name="url">
+			<value><![CDATA[jdbc:mysql://localhost:3306/test6?useUnicode=true&characterEncoding=utf-8]]></value>
+		</property>
+		<property name="username" value="tia" />
+		<property name="password" value="980703" />
+	</bean>
+
+	<!-- 配置SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+
+		<!-- 引用数据源组件 -->
+		<property name="dataSource" ref="dataSource" />
+
+		<!-- 引用MyBatis配置文件中的配置 -->
+		<property name="configLocation"
+			value="classpath:mybatis-config.xml" />
+
+		<!-- 配置SQL映射文件信息 -->
+		<property name="mapperLocations">
+			<list>
+				<value>classpath:com/thxy/dao/**/*.xml</value>
+			</list>
+		</property>
+	</bean>
+
+	<!-- 配置SqlSessionTemplate -->
+	<bean id="sqlSessionTemplate"
+		class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg name="sqlSessionFactory"
+			ref="sqlSessionFactory" />
+	</bean>
+
+	<!-- 配置DAO组件并注入SqlSessionTemplate实例 -->
+	<bean id="userMapper" class="com.thxy.dao.user.UserMapperImpl">
+		<property name="sqlSession" ref="sqlSessionTemplate" />
+	</bean>
+
+	<!-- 配置业务bean并注入DAO实例 -->
+	<bean id="userService"
+		class="com.thxy.user.service.UserServiceImpl">
+		<property name="userMapper" ref="userMapper" />
+	</bean>
+</beans>
+
+
+
+
+
+
+
+
+
