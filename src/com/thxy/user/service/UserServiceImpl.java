@@ -7,6 +7,7 @@ import com.thxy.pojo.User;
 
 public class UserServiceImpl implements UserService {
 
+	//业务实现类
 	private UserMapper userMapper;
 
 	public UserMapper getUserMapper() {
